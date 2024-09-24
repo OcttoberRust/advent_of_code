@@ -1,0 +1,6 @@
+# Ignore Cargo build artifacts
+**/target/
+
+# Ignore Rust specific files
+**/*.rs.bk
+**/*.rs.swp
