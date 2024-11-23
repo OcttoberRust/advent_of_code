@@ -4,3 +4,13 @@
 # Ignore Rust specific files
 **/*.rs.bk
 **/*.rs.swp
+
+# C++ Build directories
+**/build/
+**/cmake-build-debug/
+
+# Temporary files
+**/*.o
+**/*.obj
+**/*.exe
+**/*.out
