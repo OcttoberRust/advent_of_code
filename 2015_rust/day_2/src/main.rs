@@ -4,35 +4,61 @@ use std::cmp;
 fn main() -> std::io::Result<()> {
     let contents = fs::read_to_string("dimensions.txt")?;
     let mut total_wrapping_paper = vec![];
+    let mut total_ribbon = vec![];
 
     for line in contents.lines() {
-        println!("{line}");
-
         let v: Vec<&str> = line.split_terminator('x').collect();
 
-        println!("{:?}", v);
+        let present_box = Right_Rectangular_Prism::new(v);
 
-        let length: u32 = String::from(v[0]).parse().unwrap();
-        let width: u32 = String::from(v[1]).parse().unwrap();
-        let height: u32 = String::from(v[2]).parse().unwrap();
-         //^maybe use a tuple here?
-
-        let side1 = length*width;
-        let side2 = width*height;
-        let side3 = height*length;
-         
-        let surface_area = (2*side1) + (2*side2) + (2*side3);
-
-        let min = cmp::min(cmp::min(side1, side2), side3);
-        //in the statements above this comment, are the variables being borrowed? 
-
-        total_wrapping_paper.push(surface_area + min);
-
+        total_wrapping_paper.push(present_box.surface_area + present_box.smallest_side);
+        total_ribbon.push(present_box.smallest_perimeter + present_box.cubic_volume);
     }
 
-    let sum: u32 = total_wrapping_paper.iter().sum();
+    let wrapping_paper_sum: u32 = total_wrapping_paper.iter().sum();
+    let total_ribbon_sum: u32 = total_ribbon.iter().sum();
 
-    println!("The sum is: {sum}");
+    println!("The wrapping paper sum is {wrapping_paper_sum} and the total_ribbon_sum is {total_ribbon_sum}");
 
     Ok(())
+}
+
+//box is a reserved keyword in Rust
+struct Right_Rectangular_Prism {
+    length: u32,
+    width: u32,
+    height: u32,
+    lw: u32,
+    wh: u32,
+    hl: u32,
+    surface_area: u32,
+    smallest_side: u32,
+    smallest_perimeter: u32,
+    cubic_volume: u32,
+}
+
+impl Right_Rectangular_Prism {
+    fn new(values: Vec<&str>) -> Self {
+        let length = String::from(values[0]).parse().unwrap();
+        let width = String::from(values[1]).parse().unwrap();
+        let height = String::from(values[2]).parse().unwrap();
+
+        let lw = length * width;
+        let wh = width * height;
+        let hl = height * length;
+
+        Self {
+            length,
+            width,
+            height,
+            lw,
+            wh,
+            hl,
+            surface_area: (2*lw) + (2*wh) + (2*hl),
+            smallest_side: cmp::min(cmp::min(lw, wh), hl),
+            smallest_perimeter: cmp::min(
+            cmp::min(2*length+2*width, 2*width+2*height), 2*height+2*length),
+            cubic_volume: length*width*height,
+        }
+    }
 }
