@@ -3,20 +3,18 @@ use std::cmp;
 
 fn main() -> std::io::Result<()> {
     let contents = fs::read_to_string("dimensions.txt")?;
-    let mut total_wrapping_paper = vec![];
-    let mut total_ribbon = vec![];
+    let mut wrapping_paper_sum = 0;
+    let mut total_ribbon_sum = 0;
 
     for line in contents.lines() {
         let v: Vec<&str> = line.split_terminator('x').collect();
 
         let present_box = Right_Rectangular_Prism::new(v);
 
-        total_wrapping_paper.push(present_box.surface_area + present_box.smallest_side);
-        total_ribbon.push(present_box.smallest_perimeter + present_box.cubic_volume);
-    }
+        wrapping_paper_sum += present_box.surface_area + present_box.smallest_side;
+        total_ribbon_sum += present_box.smallest_perimeter + present_box.cubic_volume;
 
-    let wrapping_paper_sum: u32 = total_wrapping_paper.iter().sum();
-    let total_ribbon_sum: u32 = total_ribbon.iter().sum();
+    }
 
     println!("The wrapping paper sum is {wrapping_paper_sum} and the total_ribbon_sum is {total_ribbon_sum}");
 
