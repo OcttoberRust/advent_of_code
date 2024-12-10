@@ -50,7 +50,6 @@ fn has_two_nonoverlapping_pairs(line: &str) -> bool {
     let mut map: HashMap<usize, (char, char)> = HashMap::new();
 
     for (i, (a, b)) in char_a.zip(char_b).enumerate() {
-        println!("pair: ({}, {})", a, b);
         map.insert(i, (a, b));
     }
 
