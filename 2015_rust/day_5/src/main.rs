@@ -44,19 +44,34 @@ fn does_not_have_defined_str(line: &str) -> bool {
 */
 
 fn has_two_nonoverlapping_pairs(line: &str) -> bool {
+    let mut pairs_map = HashMap::new();
 
-    let char_a = line.chars();
-    let char_b = line.chars().skip(1);
-    let mut map: HashMap<usize, (char, char)> = HashMap::new();
+    let bytes = line.as_bytes();
 
-    for (i, (a, b)) in char_a.zip(char_b).enumerate() {
-        map.insert(i, (a, b));
+    for i in 0..bytes.len().saturating_sub(1) {
+        let pair = (bytes[i], bytes[i + 1]);
+
+        if let Some(&old_i) = pairs_map.get(&pair) {
+            if i >= old_i + 2 {
+                return true;
+            }
+        } else {
+            pairs_map.insert(pair, i);
+        }
     }
 
-    true
+    false
 }
 
+
 fn has_one_letter_in_between(line: &str) -> bool {
-    
-    true
+    let chars: Vec<char> = line.chars().collect();
+
+    for i in 0..chars.len().saturating_sub(2) {
+        if chars[i] == chars[i+2] {
+            return true;
+        }
+    }
+
+    return false
 }
