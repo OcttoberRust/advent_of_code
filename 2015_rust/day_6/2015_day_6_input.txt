@@ -178,7 +178,7 @@ turn on 664,53 through 886,976
 toggle 275,416 through 408,719
 turn on 370,621 through 515,793
 turn on 483,373 through 654,749
-turn on 656,786 through 847,92
+turn on 656,786 through 847,928
 turn off 532,752 through 945,974
 toggle 301,150 through 880,792
 turn off 951,488 through 958,952

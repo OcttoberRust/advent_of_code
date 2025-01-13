@@ -6,7 +6,7 @@ const GRID_SIZE: usize = 1000;
 fn main() -> io::Result<()> {
     let contents = fs::read_to_string("2015_day_6_input.txt")?;
 
-    let mut grid = vec![false; GRID_SIZE * GRID_SIZE];
+    let mut grid = vec![0u32; GRID_SIZE * GRID_SIZE];
 
     for line in contents.lines() {
         let trimmed = line.trim();
@@ -16,23 +16,27 @@ fn main() -> io::Result<()> {
 
         let instruction = Instruction::from_line(trimmed);
 
-        update_lights(&mut grid, &instruction);
+        update_brightness(&mut grid, &instruction);
     }
 
-    let count_on = grid.iter().filter(|&&light| light).count();
-    println!("Number of lights on: {}", count_on);
+    let total_brightness: u32 = grid.iter().sum();
+    println!("Total brightness: {}", total_brightness);
 
     Ok(())
 }
 
-fn update_lights(grid: &mut [bool], instr: &Instruction) {
+fn update_brightness(grid: &mut [u32], instr: &Instruction) {
     for row in instr.y1..=instr.y2 {
         for col in instr.x1..=instr.x2 {
             let idx = row * GRID_SIZE + col;
             match instr.op {
-                Operation::TurnOn => grid[idx] = true,
-                Operation::TurnOff => grid[idx] = false,
-                Operation::Toggle => grid[idx] = !grid[idx],
+                Operation::TurnOn => grid[idx] += 1,
+                Operation::TurnOff => {
+                    if grid[idx] > 0 {
+                        grid[idx] -= 1;
+                    }
+                }
+                Operation::Toggle => grid[idx] += 2,
             }
         }
     }
@@ -56,7 +60,7 @@ impl Instruction {
     fn from_line(line: &str) -> Self {
         let line = line.trim();
         let parts: Vec<&str> = line.split_whitespace().collect();
-        println!("Parsing line: {:?}", parts); // Debug print
+        println!("Parsing line: {:?}", parts);
 
         let (op, coord_start, coord_end) = if parts[0] == "toggle" {
             if parts.len() < 4 {
