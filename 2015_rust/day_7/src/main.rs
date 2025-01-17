@@ -2,7 +2,13 @@ use std::fs;
 use std::io;
 
 enum Instruction {
-    //need to implement
+    Value(u16),
+    Wire(String),
+    And(String, String),
+    Or(String, String),
+    Not(String),
+    LShift(String, u16),
+    RShift(String, u16),
 }
 
 fn main() -> io::Result<()> {
