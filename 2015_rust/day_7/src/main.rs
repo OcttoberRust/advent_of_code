@@ -1,5 +1,6 @@
 use std::fs;
 use std::io;
+use std::collections::HashMap;
 
 enum Instruction {
     Value(u16),
@@ -24,10 +25,13 @@ fn main() -> io::Result<()> {
     Ok(())
 }
 
-fn parse_line(line: &str) {
+fn parse_line(line: &str) -> (String, Instruction) {
 
+    (String::from("dest_wire"), Instruction::Value(0))
 }
 
-fn get_signal() {
+fn get_signal(wire: &str, circuit: &HashMap<String, Instruction>, memo: &mut HashMap<String, u16>)
+-> u16 {
 
+    0
 }
