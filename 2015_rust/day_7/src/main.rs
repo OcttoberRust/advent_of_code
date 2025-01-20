@@ -15,11 +15,15 @@ enum Instruction {
 fn main() -> io::Result<()> {
     let contents = fs::read_to_string("2015_day_7_input.txt")?;
 
+    let mut circuit = HashMap::new();
+
     for line in contents.lines() {
         println!("{line}");
         if line.trim().is_empty() {
             continue;
         }
+         let (wire, instr) = parse_line(line);
+         circuit.insert(wire, instr);
     }
 
     Ok(())
