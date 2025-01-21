@@ -26,6 +26,9 @@ fn main() -> io::Result<()> {
          circuit.insert(wire, instr);
     }
 
+    let mut memo = HashMap::new();
+
+    let signal_a = get_signal("a", &circuit, &mut memo);
     Ok(())
 }
 
