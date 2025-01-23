@@ -40,5 +40,9 @@ fn parse_line(line: &str) -> (String, Instruction) {
 fn get_signal(wire: &str, circuit: &HashMap<String, Instruction>, memo: &mut HashMap<String, u16>)
 -> u16 {
 
+    if let Ok(value) = wire.parse::<u16>() {
+        return value;
+    }
+
     0
 }
